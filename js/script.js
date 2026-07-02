@@ -1,23 +1,14 @@
+const addGuestButton = document.querySelector(".invite");
+const guestInputLabel = document.querySelector(".add-guest label");
+const guestInput = document.querySelector(".add-guest input");
+const guestList = document.querySelector(".guest-list");
+const guestCount = document.querySelector(".attendance");
+const guestFull = document.querySelector(".alert");
 const assignButton = document.querySelector(".assign");
 const assignedItems = document.querySelector(".assigned-items");
 
-// invite button
-const addGuestButton = document.querySelector(".invite");
-
-// label for the invite button
-const guestInputLabel = document.querySelector(".add-guest label");
-// text input box
-const guestInput = document.querySelector(".add-guest input");
-// unordered list (not yet visible)
-const guestList = document.querySelector(".guest-list");
-// span class for number of guests attending
-const guestCount = document.querySelector(".attendance");
-// alert when guest list is full (not yet visible)
-const guestFull = document.querySelector(".alert");
-
 addGuestButton.addEventListener("click", function () {
   const guest = guestInput.value;
-  //console.log(guest);
   if (guest !== "") {
     addToList(guest);
     updateGuestCount();
@@ -25,14 +16,14 @@ addGuestButton.addEventListener("click", function () {
   }
 });
 
-const clearInput = function () {
-  guestInput.value = "";
-};
-
 const addToList = function (guest) {
-  const listItem = document.createElement(`li`);
+  const listItem = document.createElement("li");
   listItem.innerText = guest;
   guestList.append(listItem);
+};
+
+const clearInput = function () {
+  guestInput.value = "";
 };
 
 const updateGuestCount = function () {
@@ -48,37 +39,36 @@ const updateGuestCount = function () {
 };
 
 const assignItems = function () {
-  const potLuckItems = [
-    "Deviled eggs",
-    "Pasta salad",
-    "Potato salad",
-    "Macaroni Coleslaw",
-    "Baked beans",
-    "Mac and cheese",
-    "Vegetable lasagna",
-    "Fried chicken",
-    "Fruit salad",
-    "Spinach artichoke dip",
-    "Buffalo chicken dip",
-    "Baked potato casserole",
-    "Broccoli chicken casserole",
+  const potluckItems = [
+    "cheese",
+    "crackers",
+    "fresh fruit",
+    "coleslaw",
+    "apple cake",
+    "gazpacho",
+    "baguette",
+    "egg salad",
+    "potato salad",
+    "summer rolls",
+    "hummus",
+    "cookies"
   ];
+
+  const allGuests = document.querySelectorAll(".guest-list li");
+
+  for (let guest of allGuests) {
+    let randomPotluckIndex = Math.floor(Math.random() * potluckItems.length);
+    let randomPotluckItem = potluckItems[randomPotluckIndex];
+
+    let listItem = document.createElement("li");
+    listItem.innerText = `${guest.innerText} is bringing ${randomPotluckItem}.`;
+    assignedItems.append(listItem);
+
+    potluckItems.splice(randomPotluckIndex, 1);
+  }
 };
 
 assignButton.addEventListener("click", function () {
   assignItems();
   assignButton.disabled = true;
 });
-
-const allGuests = document.querySelectorAll(".guest-list li");
-
-for (let guest of allGuests) {
-  let randomPotluckIndex = Math.floor(Math.random() * potluckItems.length);
-  let randomPotluckItem = potluckItems[randomPotluckIndex];
-
-  let listItem = document.createElement("li");
-  listItem.innerText = `${guest.innerText} is bringing ${randomPotluckItem}.`;
-  assignedItems.append(listItem);
-
-  potluckItems.splice(randomPotluckIndex, 1);
-}
